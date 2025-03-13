@@ -1,41 +1,33 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:14'
-        }
-    }
+    agent any
+    
     stages {
-        stage('Clone repository') {
+        stage('Build') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/rishireddy26/PES2UG22CS448_Jenkins.git'
+                script {
+                    sh 'g++ -o PES2UG22CS448 main.cpp'  
+                }
             }
         }
-        stage('Install dependencies') {
+        
+        stage('Test') {
             steps {
-                sh 'npm install'
+                script {
+                    sh './PES2UG22CS448' 
+                }
             }
         }
-        stage('Build application') {
+        
+        stage('Deploy') {
             steps {
-                sh 'npm run build'
-            }
-        }
-        stage('Test application') {
-            steps {
-                sh 'npm test'
-            }
-        }
-        stage('Push Docker image') {
-            steps {
-                sh 'docker build -t rishireddy26/myimage:$BUILD_NUMBER .'
-                sh 'docker push rishireddy26/myimage:$BUILD_NUMBER'
+                echo 'Deploying application...'
             }
         }
     }
+    
     post {
         failure {
-            echo 'Pipeline Failed'
+            echo 'Pipeline failed'
         }
     }
 }
