@@ -8,7 +8,7 @@ pipeline {
         stage('Clone repository') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/rishireddy26/CC_TA.git'
+                    url: 'https://github.com/rishireddy26/PES2UG22CS448_Jenkins.git'
             }
         }
         stage('Install dependencies') {
@@ -31,6 +31,11 @@ pipeline {
                 sh 'docker build -t rishithacs448/jenkins:$BUILD_NUMBER .'
                 sh 'docker push rishithacs448/jenkins:$BUILD_NUMBER'
             }
+        }
+    }
+    post {
+        failure {
+            echo 'Pipeline Failed'
         }
     }
 }
