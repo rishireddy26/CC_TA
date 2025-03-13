@@ -1,9 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:14'
-        }
-    }
+    agent any  // Use any available agent instead of Docker
     stages {
         stage('Clone repository') {
             steps {
@@ -28,8 +24,8 @@ pipeline {
         }
         stage('Push Docker image') {
             steps {
-                sh 'docker build -t rishithacs448/jenkins:$BUILD_NUMBER .'
-                sh 'docker push rishithacs448/jenkins:$BUILD_NUMBER'
+                sh 'docker build -t rishireddy26/myimage:$BUILD_NUMBER .'
+                sh 'docker push rishireddy26/myimage:$BUILD_NUMBER'
             }
         }
     }
