@@ -1,5 +1,9 @@
 pipeline {
-    agent any  // Use any available agent instead of Docker
+    agent {
+        docker {
+            image 'node:14'
+        }
+    }
     stages {
         stage('Clone repository') {
             steps {
